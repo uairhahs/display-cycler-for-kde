@@ -1,0 +1,44 @@
+
+Copyright (c) 2025 uairhahs and contributors
+
+This project is a simple GUI alternative to the default KDE display management.
+
+================================================================================
+LICENSE NOTICE
+================================================================================
+
+All source code and scripts in this repository are licensed under:
+  GNU General Public License, version 2 (GPL-2.0-only)
+
+You may copy, modify, and redistribute this software under the terms of the GPL-2.0-only license.
+
+See below for the full license text. No additional restrictions are imposed beyond those of the GPL-2.0-only.
+
+================================================================================
+NO WARRANTY
+================================================================================
+
+This software is provided "as is" without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement.
+
+See the GPL-2.0-only license text below for complete warranty disclaimers.
+
+================================================================================
+CONTACT
+================================================================================
+
+For licensing questions, source code requests, or GPL compliance inquiries:
+https://github.com/uairhahs/display-cycler-for-kde/issues
+
+For general support or bug reports:
+https://github.com/uairhahs/display-cycler-for-kde
+
+================================================================================
+
+
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 2, June 1991
+
+ Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
+ <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
