@@ -29,20 +29,24 @@ fi
 # --- Functions for Display Modes ---
 apply_internal_only() {
     kscreen-doctor output."${INTERNAL_DISPLAY}".enable output."${EXTERNAL_DISPLAY}".disable
-    notify-send "Display Mode: Laptop Only" "Using ${INTERNAL_DISPLAY}" -i computer -a 'Display Cycler'
+    # Brief: Title only, shorter timeout
+    notify-send "󰌢  Laptop Only" -t 2000 -a "System"
 }
+
 apply_external_only() {
     kscreen-doctor output."${INTERNAL_DISPLAY}".disable output."${EXTERNAL_DISPLAY}".enable
-    notify-send "Display Mode: External Only" "Using ${EXTERNAL_DISPLAY}" -i video-display -a 'Display Cycler'
+    notify-send "󰍹  External Only" -t 2000 -a "System"
 }
+
 apply_both_extended() {
-    # Calculate centered position: (external_width - internal_width) / 2
     local center_x=$(( (EXTERNAL_RES_X - INTERNAL_RES_X) / 2 ))
     local adjusted_y=$(echo "$EXTERNAL_RES_Y $EXTERNAL_SCALE" | awk '{printf "%.0f", $1 / $2}')
-    # Position internal display centered below external display (no gap)
-    # External display starts at Y=0, so internal should start at Y=EXTERNAL_RES_Y
-    kscreen-doctor output."${EXTERNAL_DISPLAY}".enable output."${EXTERNAL_DISPLAY}".position.0,0 output."${INTERNAL_DISPLAY}".enable output."${INTERNAL_DISPLAY}".position.${center_x},${adjusted_y}
-    notify-send "Display Mode: Extended" "Internal display centered below external" -i video-display -a 'Display Cycler'
+    
+    kscreen-doctor output."${EXTERNAL_DISPLAY}".enable output."${EXTERNAL_DISPLAY}".position.0,0 \
+                   output."${INTERNAL_DISPLAY}".enable output."${INTERNAL_DISPLAY}".position.${center_x},${adjusted_y}
+    
+    # Brief: Just the icon and the mode
+    notify-send "󰹑  Dual Display" -t 2000 -a "System"
 }
 # --- Main Cycling Logic ---
 cycle_states() {

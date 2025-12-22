@@ -7,6 +7,12 @@ A utility for cycling through display configurations in KDE Plasma targeting mai
 
 This tool allows you to quickly switch between three different display display configurations (single monitor internel only, single monitor external only, extended display with external dispaly centered above internal) in KDE Plasma environments.
 
+## Dependancies
+
+- rofi 
+- libkscreen
+- GeistMono Nerd Font (or any other preferred font, update in airhahs-display-cycler.sh if needed)
+
 ## Installation
 
 ```bash
@@ -37,7 +43,7 @@ sudo cp . ~/.local/bin
 
 ```bash
 # Cycle configurations
-./airhahs-display-cycler.sh cycle
+./airhahs-display-cycler.sh
 
 # Internal Only
 ./airhahs-display-cycler.sh internal
@@ -56,7 +62,7 @@ You can customize the display configurations by modifying the script to suit you
 To configure the script navigate the KDE system settings to the keyboard section and find the keyboard shortcuts section.
 This is where you will be able to able to add a new shortcut for either of the commands and name the new keyboard shortcut In my experience it is necessary to use the `airhahs-display-cycler.sh` handler script though your expereince may vary.
 E.g. 
-- Command: `/path/to/airhahs-display-cycler.sh cycle`
+- Command: `/path/to/airhahs-display-cycler.sh`
 
 ![Create Shortcut](res/create-shorcut.png)
 
