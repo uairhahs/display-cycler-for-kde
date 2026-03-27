@@ -31,7 +31,7 @@ INT_SCALE=$(kscreen-doctor -o | grep -iA 5 "Output:.*${INTERNAL_DISPLAY}" | grep
 EXT_SCALE=$(kscreen-doctor -o | grep -iA 5 "Output:.*${EXTERNAL_DISPLAY}" | grep -ioE 'scale: [0-9.]+' | awk '{print $2}' | head -n 1)
 
 [[ -z ${INT_SCALE} ]] && INT_SCALE=1.5
-[[ -z ${EXT_SCALE} ]] && EXT_SCALE=1.75
+[[ -z ${EXT_SCALE} ]] && EXT_SCALE=2
 
 # --- 3. Display Mode Functions ---
 apply_internal_only() {
