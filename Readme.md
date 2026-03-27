@@ -41,7 +41,7 @@ cd display-cycler-for-kde
 
 ```bash
 # copy to desired path (preferably ~/.local/bin)
-sudo cp . ~/.local/bin
+sudo cp -r . ~/.local/bin
 ```
 
 ## Usage
