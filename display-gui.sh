@@ -7,29 +7,30 @@ CH_BOTH="󰹑    Extend Both"
 OPTIONS="${CH_LAPTOP}\n${CH_EXTERNAL}\n${CH_BOTH}"
 FONT="GeistMono Nerd Font"
 
-# --- Vibrant Color Palette (Restored) ---
-# Using more opaque colors to prevent the "washed out" look
-BG="#1E1E2E"           # Solid base to pop against
-ACCENT="#c678dd"       # Purple
-SELECTION="#c678dd"    # Full saturation purple for selected
-CREAM="#F5E0DC"        # The "cream" from your original screenshot
-SELECT_TEXT="#11111B"  # Dark text for high contrast on light buttons
+# --- Vibrant Material Palette ---
+BG="#1E1E2E"
+FG="#D9E0EE"
+ACCENT="#c678dd"
+SELECTION="#c678dd"
+CREAM="#F5E0DC"
+SELECT_TEXT="#11111B"
 
-# --- Wofi Config ---
+# --- Wofi Configuration ---
 CONFIG_FILE=$(mktemp --suffix=wofi.conf)
+STYLE_FILE=$(mktemp --suffix=wofi.css)
 trap 'rm -f "${CONFIG_FILE}" "${STYLE_FILE}"' EXIT
-cat >"${CONFIG_FILE}" <<EOF
-hide_search=true
-close_on_focus_loss=true
+
+cat >"${CONFIG_FILE}" <<WOFI
 show=dmenu
-width=500
+width=480
 lines=3
 location=center
-EOF
+close_on_focus_loss=true
+allow_images=false
+prompt=""
+WOFI
 
-# --- Wofi Style (Expressive Version) ---
-STYLE_FILE=$(mktemp --suffix=wofi.css)
-cat >"${STYLE_FILE}" <<EOF
+cat >"${STYLE_FILE}" <<WOFI
 window {
     border-radius: 32px;
     border: 2px solid rgba(198, 120, 221, 0.3);
@@ -39,52 +40,67 @@ window {
 
 #outer-box {
     margin: 20px;
-    padding: 10px;
 }
 
-#entry {
-    padding: 20px;
-    margin: 8px 0px;
-    border-radius: 20px;
-    background-color: ${CREAM}; /* Default cream background */
-}
-
-#entry #text {
-    color: ${SELECT_TEXT}; /* Dark text on cream */
-    font-weight: 600;
-    font-size: 17px;
-}
-
-#entry:selected {
-    background-color: ${SELECTION}; /* Purple when selected */
-    outline: none;
-}
-
-#entry:selected #text {
-    color: #ffffff; /* White text on purple */
-}
-
-/* Recreating the "Header" feel via margin/padding on the box */
-#inner-box {
-    background-color: transparent;
-}
-
-/* Completely nuke search area */
 #input {
     display: none;
     opacity: 0;
+    margin: -100px;
 }
-EOF
 
-# --- Launch ---
+/* THE FIX: Specifically target the GTK selection layers that cause the "ghost" corners */
+flowboxchild, row {
+    border-radius: 22px;
+    margin: 6px 0px;
+    background-color: transparent; /* Kill the default rectangular highlight */
+    outline: none;                /* Remove focus rings */
+    box-shadow: none;             /* Remove default GTK selection shadows */
+}
+
+/* Ensure parents remain transparent even when selected */
+flowboxchild:selected, row:selected {
+    background-color: transparent;
+    outline: none;
+    box-shadow: none;
+}
+
+#entry {
+    padding: 18px 25px;
+    border-radius: 22px;
+    background-color: ${CREAM};
+    border: 1px solid transparent;
+    overflow: hidden; /* Force content to respect the 22px radius */
+}
+
+#entry #text {
+    color: ${SELECT_TEXT};
+    font-weight: 600;
+}
+
+#entry:selected {
+    background-color: ${SELECTION};
+    border: 1px solid ${ACCENT};
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+#entry:selected #text {
+    color: #ffffff;
+}
+
+#scroll {
+    border: none;
+}
+WOFI
+
+# --- Execution ---
 if command -v wofi >/dev/null 2>&1; then
-    CHOICE=$(echo -e "${OPTIONS}" | wofi --conf "${CONFIG_FILE}" --style "${STYLE_FILE}")
+	CHOICE=$(echo -e "${OPTIONS}" | wofi --conf "${CONFIG_FILE}" --style "${STYLE_FILE}" --hide-search --no-custom-entry --insensitive)
 else
-    # Your Rofi fallback already looks great, keeping it as is
-    CHOICE=$(echo -e "${OPTIONS}" | rofi -dmenu -i -p "󰒓  Layout")
+	CHOICE=$(echo -e "${OPTIONS}" | rofi -dmenu -i -p "󰒓  Layout")
 fi
 
-# --- Switching Engine ---
+# --- Switching Logic ---
 case "${CHOICE}" in
 *"Laptop Only"*) /home/"${USER}"/.local/bin/airhahs-display-manager.sh internal ;;
 *"External Only"*) /home/"${USER}"/.local/bin/airhahs-display-manager.sh external ;;
